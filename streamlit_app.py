@@ -206,6 +206,7 @@ if uploaded_file or selected_file is not None:
         st.text_input("Transliteration", value=('; ').join(transliteration_list))
     
     st.header("Debugging")
+    st.text('v1.5')
     colA, colB, colC = st.columns((1,1,1))
     with colA:
         st.text(first_response)
