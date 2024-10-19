@@ -47,7 +47,7 @@ def encode_image(image_obj):
     return base64.b64encode(image_obj).decode('utf-8')
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.10</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.11</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -67,12 +67,18 @@ with col_top1:
     st.header('👉 Upload an image')
     uploaded_file = st.file_uploader("Upload your mark to generate suggested indices.", type=['png', 'jpg','gif'], accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
 
+if "button" not in st.session_state:
+    st.session_state.button = False
+
+def unexpand():
+    st.session_state.button = False
+
 selected_file=None
 col_right=[]
 rowN=0
 with col_top2:
     st.header('or 👉 Select a sample image below')
-    with st.expander('**Samples**'):
+    with st.expander('**Samples**',expanded=st.session_state.button):
         n=0
         rowElements = []
         rows=math.ceil(len(images)/6)
@@ -84,7 +90,7 @@ with col_top2:
                     if n < len(images):    
                         with col_right[rowN][n%6]:
                             #print(rowN,n%6)
-                            if st.button(f'Sample {n+1}',type="primary"):
+                            if st.button(f'Sample {n+1}',type="primary",on_click=unexpand):
                                 selected_file=BytesIO(base64.b64decode(images[n]))
                                 uploaded_file=None
                             st.image('data:image/jpg;base64,'+images[n])
