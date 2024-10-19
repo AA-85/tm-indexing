@@ -47,7 +47,7 @@ def encode_image(image_obj):
     return base64.b64encode(image_obj).decode('utf-8')
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.8</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.9</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -59,7 +59,7 @@ Every day IPOS receveives hundreds of trade mark applications which contain imag
 **Instructions:**  
 To use, simply upload an image to be indexed or select one from the list of samples.
                 
-For further information on the methods of extraction, refer to '⚙️ 🧰 See for Debugging' after the indices have been generated.''')
+To view the raw data from OpenAI, refer to '⚙️ 🧰 Debugging' after the indices have been generated.''')
 
 col_top1, col_top2 = st.columns((1,2))
 
@@ -207,12 +207,15 @@ if uploaded_file or selected_file is not None:
         st.text_input("Translation", value=('; ').join(translation_list))
         st.text_input("Transliteration", value=('; ').join(transliteration_list))
     
-    with st.expander('⚙️ 🧰 Debugging'):
-        #st.header("Debugging")
+    with st.expander('⚙️ 🧰 **Debugging**'):
+        
         colA, colB, colC = st.columns((1,1,1))
         with colA:
+            st.markdown('**First response:**')
             st.text(first_response)
         with colB:
+            st.markdown('**Second response:**')
             st.text(second_response)
         with colC:
+            st.markdown('**Third response:**')
             st.text(third_response)
