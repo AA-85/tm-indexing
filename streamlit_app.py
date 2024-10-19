@@ -47,7 +47,7 @@ def encode_image(image_obj):
     return base64.b64encode(image_obj).decode('utf-8')
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.9</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.10</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -146,7 +146,7 @@ if uploaded_file or selected_file is not None:
             {'type':'text',
                 'text': "Your response should be a JSON object with 2 keys: 'description_of_devices','text_in_image'." 
                 "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image EXCLUDING any text or letters/alphabets and should not include words like 'logo', 'text', 'alphabets', 'letters', 'words', 'names' etc. If the image contains purely text and does not contain pictorial elements, this may be left empty."
-                "'text_in_image' should be a list of ALL the TEXTUAL words/phrases present in the image. This field should be left empty if there is no text in the image. Parts of text OF THE SAME LANGUAGE appearing together in the image should be output as a single string in the list, while text of different languages should be separated and returned as separate strings. "
+                "'text_in_image' should be a list of ALL the TEXTUAL words/phrases present in the image including text in foreign chracters, e.g. Thai, Chinese, etc. This field should be left empty if there is no text in the image. Parts of text OF THE SAME LANGUAGE appearing together in the image should be output as a single string in the list, while text of different languages should be separated and returned as separate strings. "
                 "E.g. Chinese characters and English words SHOULD NOT be returned as a single string, like '麻布茶房 Ice-Cream' should be returned as '麻布茶房' and 'Ice-Cream'."
                 },
                 {'type':'image_url',
