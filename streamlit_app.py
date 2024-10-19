@@ -47,6 +47,7 @@ def encode_image(image_obj):
     return base64.b64encode(image_obj).decode('utf-8')
 
 st.set_page_config(layout="wide")
+st.markdown('<div style="text-align: right;"><i>v1.8</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -206,12 +207,12 @@ if uploaded_file or selected_file is not None:
         st.text_input("Translation", value=('; ').join(translation_list))
         st.text_input("Transliteration", value=('; ').join(transliteration_list))
     
-    st.header("Debugging")
-    st.text('v1.7')
-    colA, colB, colC = st.columns((1,1,1))
-    with colA:
-        st.text(first_response)
-    with colB:
-        st.text(second_response)
-    with colC:
-        st.text(third_response)
+    with st.expander('⚙️ 🧰 Debugging'):
+        #st.header("Debugging")
+        colA, colB, colC = st.columns((1,1,1))
+        with colA:
+            st.text(first_response)
+        with colB:
+            st.text(second_response)
+        with colC:
+            st.text(third_response)
