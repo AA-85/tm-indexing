@@ -1,6 +1,217 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
+from openai import OpenAI
+from images import images
+import base64
+from PIL import Image
+import io
+from io import BytesIO
+import json
+import unicodedata
+import math
 
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+from utility import check_password
+
+# Do not continue if check_password is not True.  
+if not check_password():  
+    st.stop()
+
+
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+def get_completion(prompt, model="gpt-4o", temperature=0, top_p=1.0, max_tokens=256, n=1, json_output=False):
+
+    if json_output == True:
+      output_json_structure = {"type": "json_object"}
+    else:
+      output_json_structure = None
+
+    messages = [{"role": "system", "content": "You are an automated image tagging robot."},{"role": "user", "content": prompt}]
+    response = client.chat.completions.create( #originally was openai.chat.completions
+        model=model,
+        messages=messages,
+        temperature=temperature,
+        top_p=top_p,
+        max_tokens=max_tokens,
+        n=1,
+        response_format=output_json_structure,
+    )
+    return response.choices[0].message.content
+    
+# def encode_image(image_path):
+#   with open(image_path, "rb") as image_file:
+#     return base64.b64encode(image_file.read()).decode('utf-8')
+
+def encode_image(image_obj):
+    return base64.b64encode(image_obj).decode('utf-8')
+
+st.set_page_config(layout="wide")
+st.title('🤖 Trade Mark Automatic Indexer') 
+
+with st.expander("📌 **Getting Started**"):
+    st.markdown('''Greetings!
+----------
+**Background:**  
+Every day IPOS receveives hundreds of trade mark applications which contain images that need to be "indexed" or tagged with the relevant information about the textextual and graphical elements they contain to enable our text-based search to function (this is in addition to an image-based search that we also provide). Today, this is done manually by a team of indexing officers but we plan to leverage AI to assist them by providing a first cut and this is a POC for that.
+
+**Instructions:**  
+To use, simply upload an image to be indexed or select one from the list of samples.
+                
+For further information on the methods of extraction, refer to '⚙️ 🧰 See for Debugging' after the indices have been generated.''')
+
+col_top1, col_top2 = st.columns((1,2))
+
+with col_top1:
+    st.header('👉 Upload an image')
+    uploaded_file = st.file_uploader("Upload your mark to generate suggested indices.", type=['png', 'jpg','gif'], accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
+
+selected_file=None
+col_right=[]
+rowN=0
+with col_top2:
+    st.header('or 👉 Select a sample image below')
+    with st.expander('**Samples**'):
+        n=0
+        rowElements = []
+        rows=math.ceil(len(images)/6)
+        for rowN in range(0,rows):
+            rowElements.append(st.container())
+            with rowElements[rowN]:
+                col_right.append(st.columns((1,1,1,1,1,1)))
+                for colN in range(0,6):
+                    if n < len(images):    
+                        with col_right[rowN][n%6]:
+                            #print(rowN,n%6)
+                            if st.button(f'Sample {n+1}',type="primary"):
+                                selected_file=BytesIO(base64.b64decode(images[n]))
+                                uploaded_file=None
+                            st.image('data:image/jpg;base64,'+images[n])
+                            
+                        n=n+1
+
+col1, col2 = st.columns((1,1))
+
+if uploaded_file or selected_file is not None:
+    if uploaded_file is None:
+        uploaded_file = selected_file
+    # b64Str = encode_image(uploaded_file.read())
+    # st.text(b64Str)
+    # st.text(len(b64Str))
+
+    # st.text(encode_image(uploaded_file))
+    # imagefile = io.BytesIO(uploaded_file.read())
+    with Image.open(uploaded_file) as im:
+        width, height = im.size
+        if width > 512 or height > 512:
+            im.thumbnail((512, 512))
+        img_byte_arr = io.BytesIO()
+        background = Image.new("RGB", im.size, (255, 255, 255))
+        if im.mode != "RGBA":
+            im = im.convert("RGBA")
+        background.paste(im, mask=im)
+        # im.convert('RGB').save(img_byte_arr, format='JPEG', quality=95)
+        background.convert('L').save(img_byte_arr, format='JPEG', quality=100)
+        # st.image(im)
+        img_byte_arr = img_byte_arr.getvalue()
+        b64Str=encode_image(img_byte_arr)
+        # st.text(b64Str)
+        # st.text(len(b64Str))
+        image_data = base64.b64decode(b64Str)
+        # Convert the decoded data to an image
+        img = Image.open(BytesIO(image_data))
+        with col1:
+            st.header("🖼️ Image Preview")
+            st.image(img)
+    
+    # prompt=[
+    #    {'type':'text',
+    #     'text': "Your response should be a JSON object with 5 keys: 'description_of_devices', 'words_in_image', 'non-english_words', 'chinese_characters', 'other_non_alphanumeric_words'." 
+    #     "Text can be broadly grouped into English or coined words, foreign words using the alphabet such as Malay or Italian, Chinese words and non-Chinese foreign words not using the English alphabet such as Korean or Japanese."
+    #     "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image excluding the text and should not include words like 'logo' or 'text'. If the image contains purely text and does not contain pictorial elements, this may be left empty."
+    #     "'words_in_mark' should be a list of all the textual words/phrases in alphanumeric characters found in the image. If there is no text found in the image, this field MUST BE left empty. Parts of text that appear together in the image should be output as a single string in the list. 'words_in_mark' should not include words written in foreign characters such as Chinese, Korean, Japanese, Hindi etc."
+    #     "If 'words_in_mark' contains any non-English words that use the English alphabet, they should be returned as a list in 'non-english_words'. Parts of text that appear together in the image should be output as a single string in the list. 'non-english_words' should not include words written in foreign characters such as Chinese, Korean, Japanese, Hindi etc."
+    #     "'chinese_characters' should be a list of all the Chinese characters found in the image or left empty if none exist."
+    #     "'other_non_alphanumeric_words' should be a list of all the non-Chinese foreign character (such as Japanese or Korean) words found in the image or left empty if none exist."},
+    #     {'type':'image_url',
+    #     'image_url':{'url':f"data:image/jpeg;base64,{b64Str}"}
+    #     }
+    # ]
+
+    with col2:
+        st.header("🔍 Results: Indices Generated")
+        with st.spinner('Generating indices...'):
+            prompt=[
+            {'type':'text',
+                'text': "Your response should be a JSON object with 4 keys: 'description_of_devices','description_of_devices_confidence_score', 'text_in_image', 'text_in_image_confidence_score'." 
+                "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image EXCLUDING any text or letters/alphabets and should not include words like 'logo', 'text', 'alphabets', 'letters', 'words', 'names' etc. If the image contains purely text and does not contain pictorial elements, this may be left empty."
+                #"'description_of_devices_confidence_score' should be a value from 0 to 1, to 3 decimal places, indicating the confidence score of the description_of_devices provided."
+                "'text_in_image' should be a list of all the TEXTUAL words/phrases present in the image. This field should be left empty if there is no text in the image. Parts of text that appear together in the image should be output as a single string in the list."
+                #"'text_in_image_confidence_score' should be a value from 0 to 1, to 3 decimal places, indicating the confidence score of the text_in_image provided."
+                },
+                {'type':'image_url',
+                'image_url':{'url':f"data:image/jpeg;base64,{b64Str}"}
+                }
+            ]
+
+            first_response = get_completion(prompt,model="gpt-4o",json_output=True)
+            first_response_json=json.loads(first_response)
+            text_in_image=list(dict.fromkeys(first_response_json['text_in_image']))
+            description_of_devices=list(dict.fromkeys(first_response_json['description_of_devices']))
+            second_response=''
+            second_response_json={"english_words_coined_words_numbers":[],"chinese_words":[],"non-english_words_using_the_english_alphabet":[],"non_chinese_foreign_words_not_in_english_alphabets":[]}
+            if len(text_in_image)>0:
+                prompt=[
+                {'type':'text',
+                    'text': "Your response should be a JSON object with 4 keys: 'english_words_coined_words_numbers', 'chinese_words', 'non-english_words_using_the_english_alphabet', 'non_chinese_foreign_words_not_in_english_alphabets'."
+                    "For each item in the provided list, classify it into one of the 4 keys. DO NOT split one item into multiple items."
+                    "'non_chinese_foreign_words_not_in_english_alphabets' MUST NOT contain any Chinese characters as they should be classified in 'chinese_words' instead."
+                    "'english_words_coined_words_numbers' includes English words and also words that do not belong to any language and have no known meaning, and also romanised words (such as romanised japanese words)."
+                    "'non-english_words_using_the_english_alphabet' should only include words not in English but with a known meaning, but should not include romanised words (such as romanised japanese words)."
+                    "List:"    
+                    f"{text_in_image}"      
+                    }
+                ]
+
+                second_response=get_completion(prompt,model="gpt-4o",json_output=True)
+                second_response_json=json.loads(second_response)
+
+            third_response=''
+            third_response_json={"translation":[],"transliteration":[]}
+            transliteration_list=[]
+            translation_list=[]
+            if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_english_alphabets']))>0:
+                inputList=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
+                prompt=[
+                {'type':'text',
+                    'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values are lists."
+                    "For each item in the provided list, provide a transliteration of the item in latin script in the key 'transliteration'."
+                    "For each item in the provided list, if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
+                    "List:"    
+                    f"{inputList}"      
+                    }
+                ]
+                third_response=get_completion(prompt,model="gpt-4o-mini",json_output=True)
+                third_response_json=json.loads(third_response)
+                for item in third_response_json['transliteration']:
+                    transliteration_list.append((unicodedata.normalize('NFD',item).encode('ASCII','ignore')).decode('ASCII'))
+                transliteration_list=list(dict.fromkeys(transliteration_list))
+                translation_list=list(dict.fromkeys(third_response_json['translation']))
+
+    with col2:
+        st.text_input("Description of device", value=('; ').join(first_response_json["description_of_devices"]))
+        st.text_input("English/coined words in mark", value=('; ').join(second_response_json["english_words_coined_words_numbers"]))
+        st.text_input("Non-English words using the English alphabet", value=('; ').join(second_response_json["non-english_words_using_the_english_alphabet"]))
+        st.text_input("Chinese characters", value=('; ').join(second_response_json["chinese_words"]))
+        st.text_input("Other foreign characters", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
+        st.text_input("Translation", value=('; ').join(translation_list))
+        st.text_input("Transliteration", value=('; ').join(transliteration_list))
+    
+    st.header("Debugging")
+    colA, colB, colC = st.columns((1,1,1))
+    with colA:
+        st.text(first_response)
+    with colB:
+        st.text(second_response)
+    with colC:
+        st.text(third_response)
