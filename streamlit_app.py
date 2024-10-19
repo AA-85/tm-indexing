@@ -145,7 +145,7 @@ if uploaded_file or selected_file is not None:
             {'type':'text',
                 'text': "Your response should be a JSON object with 2 keys: 'description_of_devices','text_in_image'." 
                 "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image EXCLUDING any text or letters/alphabets and should not include words like 'logo', 'text', 'alphabets', 'letters', 'words', 'names' etc. If the image contains purely text and does not contain pictorial elements, this may be left empty."
-                "'text_in_image' should be a list of all the TEXTUAL words/phrases present in the image. This field should be left empty if there is no text in the image. Parts of text OF THE SAME LANGUAGE appearing together in the image should be output as a single string in the list, while text of different languages should be returned as separate strings."
+                "'text_in_image' should be a list of ALL the TEXTUAL words/phrases present in the image. This field should be left empty if there is no text in the image. Parts of text OF THE SAME LANGUAGE appearing together in the image should be output as a single string in the list, while text of different languages should be returned as separate strings. E.g. Chinese characters and English words SHOULD NOT be returned as a single string."
                 },
                 {'type':'image_url',
                 'image_url':{'url':f"data:image/jpeg;base64,{b64Str}"}
@@ -206,7 +206,7 @@ if uploaded_file or selected_file is not None:
         st.text_input("Transliteration", value=('; ').join(transliteration_list))
     
     st.header("Debugging")
-    st.text('v1.5')
+    st.text('v1.6')
     colA, colB, colC = st.columns((1,1,1))
     with colA:
         st.text(first_response)
