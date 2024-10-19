@@ -146,7 +146,7 @@ if uploaded_file or selected_file is not None:
                 'text': "Your response should be a JSON object with 4 keys: 'description_of_devices','description_of_devices_confidence_score', 'text_in_image', 'text_in_image_confidence_score'." 
                 "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image EXCLUDING any text or letters/alphabets and should not include words like 'logo', 'text', 'alphabets', 'letters', 'words', 'names' etc. If the image contains purely text and does not contain pictorial elements, this may be left empty."
                 #"'description_of_devices_confidence_score' should be a value from 0 to 1, to 3 decimal places, indicating the confidence score of the description_of_devices provided."
-                "'text_in_image' should be a list of all the TEXTUAL words/phrases present in the image. This field should be left empty if there is no text in the image. Parts of text that appear together in the image should be output as a single string in the list."
+                "'text_in_image' should be a list of all the TEXTUAL words/phrases present in the image. This field should be left empty if there is no text in the image. Parts of text of the same language that appear together in the image should be output as a single string in the list."
                 #"'text_in_image_confidence_score' should be a value from 0 to 1, to 3 decimal places, indicating the confidence score of the text_in_image provided."
                 },
                 {'type':'image_url',
