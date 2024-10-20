@@ -47,8 +47,7 @@ def encode_image(image_obj):
 
 def scroll_to(element_id):
     components.html(f'''
-        <script>
-            console.log('clicked');        
+        <script>     
             window.parent.document.getElementsByTagName("summary")[1].click()
             var element = window.parent.document.getElementById("{element_id}");
             element.scrollIntoView({{behavior: 'smooth'}});
@@ -56,7 +55,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.19</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.20</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -96,6 +95,7 @@ with col_top2:
                             if st.button(f'Sample {n+1}',type="primary"):
                                 selected_file=BytesIO(base64.b64decode(b64_images[n]))
                                 uploaded_file=None
+                                scroll_to("preview")
                             st.image('data:image/jpg;base64,'+b64_images[n])
                             
                         n=n+1
@@ -130,7 +130,6 @@ if uploaded_file or selected_file is not None:
         image_data = base64.b64decode(b64Str)
         # Convert the decoded data to an image
         img = Image.open(BytesIO(image_data))
-        scroll_to("preview")
         with col1:
             st.header("🖼️ Image Preview",anchor="preview")
             st.image(img)
