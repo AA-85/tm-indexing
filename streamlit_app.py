@@ -54,7 +54,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.13</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.14</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -149,7 +149,7 @@ if uploaded_file or selected_file is not None:
 
     with col2:
         st.header("🔍 Results: Indices Generated",anchor="results")
-        with st.spinner('Generating indices...',anchor="results"):
+        with st.spinner('Generating indices...'):
             prompt=[
             {'type':'text',
                 'text': "Your response should be a JSON object with 2 keys: 'description_of_devices','text_in_image'." 
