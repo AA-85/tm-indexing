@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 import pandas as pd
 import numpy as np
 from openai import OpenAI
-from images import images
+from images import b64_images
 import base64
 from PIL import Image
 import io
@@ -57,7 +57,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.15</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.16</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
