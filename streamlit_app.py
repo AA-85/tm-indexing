@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import numpy as np
 from openai import OpenAI
@@ -17,11 +18,9 @@ from utility import check_password
 if not check_password():  
     st.stop()
 
-
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 def get_completion(prompt, model="gpt-4o", temperature=0, top_p=1.0, max_tokens=256, n=1, json_output=False):
-
     if json_output == True:
       output_json_structure = {"type": "json_object"}
     else:
@@ -46,8 +45,16 @@ def get_completion(prompt, model="gpt-4o", temperature=0, top_p=1.0, max_tokens=
 def encode_image(image_obj):
     return base64.b64encode(image_obj).decode('utf-8')
 
+def scroll_to(element_id):
+    components.html(f'''
+        <script>
+            var element = window.parent.document.getElementById("{element_id}");
+            element.scrollIntoView({{behavior: 'smooth'}});
+        </script>
+    '''.encode())
+
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.12</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.13</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -67,17 +74,12 @@ with col_top1:
     st.header('👉 Upload an image')
     uploaded_file = st.file_uploader("Upload your mark to generate suggested indices.", type=['png', 'jpg','gif'], accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
 
-st.session_state['expanded'] = False
-
-def unexpand():
-    st.session_state['expanded'] = False
-
 selected_file=None
 col_right=[]
 rowN=0
 with col_top2:
     st.header('or 👉 Select a sample image below')
-    with st.expander('**Samples**',expanded=st.session_state['expanded']):
+    with st.expander('**Samples**'):
         n=0
         rowElements = []
         rows=math.ceil(len(images)/6)
@@ -89,7 +91,7 @@ with col_top2:
                     if n < len(images):    
                         with col_right[rowN][n%6]:
                             #print(rowN,n%6)
-                            if st.button(f'Sample {n+1}',type="primary",on_click=unexpand):
+                            if st.button(f'Sample {n+1}',type="primary"):
                                 selected_file=BytesIO(base64.b64decode(images[n]))
                                 uploaded_file=None
                             st.image('data:image/jpg;base64,'+images[n])
@@ -126,8 +128,9 @@ if uploaded_file or selected_file is not None:
         image_data = base64.b64decode(b64Str)
         # Convert the decoded data to an image
         img = Image.open(BytesIO(image_data))
+        scroll_to("preview")
         with col1:
-            st.header("🖼️ Image Preview")
+            st.header("🖼️ Image Preview",anchor="preview")
             st.image(img)
     
     # prompt=[
@@ -145,8 +148,8 @@ if uploaded_file or selected_file is not None:
     # ]
 
     with col2:
-        st.header("🔍 Results: Indices Generated")
-        with st.spinner('Generating indices...'):
+        st.header("🔍 Results: Indices Generated",anchor="results")
+        with st.spinner('Generating indices...',anchor="results"):
             prompt=[
             {'type':'text',
                 'text': "Your response should be a JSON object with 2 keys: 'description_of_devices','text_in_image'." 
