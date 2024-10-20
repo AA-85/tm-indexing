@@ -48,13 +48,16 @@ def encode_image(image_obj):
 def scroll_to(element_id):
     components.html(f'''
         <script>
+            for (details of window.parent.document.getElementsByTagName("details")){{
+                details.open=false;
+            }}
             var element = window.parent.document.getElementById("{element_id}");
             element.scrollIntoView({{behavior: 'smooth'}});
         </script>
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.14</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.15</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
