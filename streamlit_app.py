@@ -57,7 +57,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.16</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.17</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -85,19 +85,19 @@ with col_top2:
     with st.expander('**Samples**'):
         n=0
         rowElements = []
-        rows=math.ceil(len(images)/6)
+        rows=math.ceil(len(b64_images)/6)
         for rowN in range(0,rows):
             rowElements.append(st.container())
             with rowElements[rowN]:
                 col_right.append(st.columns((1,1,1,1,1,1)))
                 for colN in range(0,6):
-                    if n < len(images):    
+                    if n < len(b64_images):    
                         with col_right[rowN][n%6]:
                             #print(rowN,n%6)
                             if st.button(f'Sample {n+1}',type="primary"):
-                                selected_file=BytesIO(base64.b64decode(images[n]))
+                                selected_file=BytesIO(base64.b64decode(b64_images[n]))
                                 uploaded_file=None
-                            st.image('data:image/jpg;base64,'+images[n])
+                            st.image('data:image/jpg;base64,'+b64_images[n])
                             
                         n=n+1
 
