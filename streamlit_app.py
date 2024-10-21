@@ -56,7 +56,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.24</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.25</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -235,14 +235,14 @@ if uploaded_file or selected_file is not None:
         with st.form("feedback_form"):
             st.write("**Was this tool helpful?**")
             rating = st.feedback("thumbs")
-            comments = st.text_input("Why did you choose this rating? (optional)")
-            submit_form = st.form_submit_button(label="feedback", help="Click to submit your feedback")
+            comments = st.text_input("**Why did you choose this rating? (optional)**")
+            submit_form = st.form_submit_button(label="Submit", help="Click to submit your feedback")
 
             # Checking if all the fields are non-empty
             if submit_form:
                 st.write(submit_form)
 
-                if feedback_selected:
+                if submit_form:
                     URL = 'https://formsubmit.co/andrew.au.tm@gmail.com'
                     payload = {
                         'rating': rating,
