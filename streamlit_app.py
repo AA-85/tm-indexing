@@ -56,7 +56,7 @@ def scroll_to(element_id):
     '''.encode(), height=0)
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.31</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.32</i></div>', unsafe_allow_html=True)
 st.markdown(
     f""" 
         <style>
