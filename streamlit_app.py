@@ -56,7 +56,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.27</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.28</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -253,7 +253,7 @@ if uploaded_file or selected_file is not None:
                     }
                     data = json.dumps(payload, separators=(',', ':'))
                     session = requests.session()
-                    r = requests.post(URL, data=data)
+                    r = requests.post(URL, headers=headers,data=data)
                     st.success("Form submitted, thank you for your feedback!")
                 else:
                     st.warning("Please indicate 👍 or 👎 before submitting the form.")
