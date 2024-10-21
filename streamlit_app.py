@@ -243,7 +243,7 @@ if uploaded_file or selected_file is not None:
 
             # Checking if all the fields are non-empty
             if submit_form:
-                if rating:    
+                if rating==1 or rating==0:    
                     URL = 'https://api.web3forms.com/submit'
                     headers= {
                         "Content-Type": "application/json",
