@@ -49,11 +49,14 @@ def encode_image(image_obj):
 def scroll_to(element_id):
     components.html(f'''
         <script>     
+            async function sleep(ms){{
+                await new Promise(r => setTimeout(r, ms));        
+            }}
             try{{
                 window.parent.document.getElementsByTagName("summary")[1].click();}}
             catch{{
                 document.getElementsByTagName("summary")[1].click();}}
-            await new Promise(r => setTimeout(r, 500));
+            sleep(500);
             try{{
                 var element = window.parent.document.getElementById("{element_id}");}}
             catch{{
