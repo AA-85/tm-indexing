@@ -159,7 +159,7 @@ if uploaded_file or selected_file is not None:
             prompt=[
             {'type':'text',
                 'text': "Your response should be a JSON object with 2 keys: 'description_of_devices','text_in_image'." 
-                "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image EXCLUDING any text or letters/alphabets and should not include words like 'logo', 'text', 'alphabets', 'letters', 'words', 'names' etc. If the image contains purely text and does not contain pictorial elements, this may be left empty."
+                "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image EXCLUDING any text or letters/alphabets/foreign characters and should not include words like 'logo', 'text', 'alphabets', 'letters', 'words', 'names' etc. If the image contains purely text and does not contain pictorial elements, this may be left empty."
                 "'text_in_image' should be a list of ALL the TEXTUAL words/phrases present in the image including text in foreign chracters, e.g. Thai, Chinese, etc. This field should be left empty if there is no text in the image. Parts of text OF THE SAME LANGUAGE appearing together in the image should be output as a single string in the list, while text of different languages should be separated and returned as separate strings. Please ONLY provide responses solely based on what is found in the provided image."
                 "E.g. Chinese characters and English words SHOULD NOT be returned as a single string, like '麻布茶房 Ice-Cream' should be returned as '麻布茶房' and 'Ice-Cream'."
                 },
@@ -173,15 +173,15 @@ if uploaded_file or selected_file is not None:
             text_in_image=list(dict.fromkeys(first_response_json['text_in_image']))
             description_of_devices=list(dict.fromkeys(first_response_json['description_of_devices']))
             second_response=''
-            second_response_json={"english_words_coined_words_numbers_romanized_words":[],"chinese_words":[],"non-english_words_using_the_english_alphabet":[],"non_chinese_foreign_words_not_in_english_alphabets":[]}
+            second_response_json={"english_words_coined_words_numbers_romanized_words":[],"chinese_words":[],"non-english_words_using_the_latin_alphabet":[],"non_chinese_foreign_words_not_in_latin_alphabet":[]}
             if len(text_in_image)>0:
                 prompt=[
                 {'type':'text',
-                    'text': "Your response should be a JSON object with 4 keys: 'english_words_coined_words_numbers_romanized_words', 'chinese_words', 'non-english_words_using_the_english_alphabet', 'non_chinese_foreign_words_not_in_english_alphabets'."
+                    'text': "Your response should be a JSON object with 4 keys: 'english_words_coined_words_numbers_romanized_words', 'chinese_words', 'non-english_words_using_the_latin_alphabet', 'non_chinese_foreign_words_not_in_latin_alphabet'."
                     "For each item in the provided list, classify it into one of the 4 keys. DO NOT split one item into multiple items."
                     "'english_words_coined_words_numbers_romanized_words' includes 1)English words, 2)words that do not belong to any language and have no known meaning, and 3) romanized foreign words (such as romanized japanese words like 'kawaii' and romanized korean words like 'daebak')."
-                    "'non_chinese_foreign_words_not_in_english_alphabets' MUST NOT contain any Chinese characters as they should be classified in 'chinese_words' instead. This should contain words in other foreign characters such as Thai script, Japanese hiragana and katakana, korean script, indian brahmic scripts etc."
-                    "'non-english_words_using_the_english_alphabet' should only include words not in English but with a known meaning, but MUST NOT include romanised foreign words (e.g. it MUST NOT contain romanized japanese words like 'kawaii' and romanized korean words like 'daebak', EXCEPT names of places e.g. 'Hokkaido')."
+                    "'non_chinese_foreign_words_not_in_latin_alphabet' MUST NOT contain any Chinese characters as they should be classified in 'chinese_words' instead. This should contain words in other foreign characters such as Thai script, Japanese hiragana and katakana, korean script, indian brahmic scripts etc."
+                    "'non-english_words_using_the_latin_alphabet' should only include words not in English but with a known meaning, but MUST NOT include romanised foreign words (e.g. it MUST NOT contain romanized japanese words like 'kawaii' and romanized korean words like 'daebak', EXCEPT names of places e.g. 'Hokkaido'). This should include words in languages that use the English alphabet such as Bahasa Melayu, German, French, Vietnamese, Swahili etc."
                     "List:"    
                     f"{text_in_image}"      
                     }
@@ -194,9 +194,9 @@ if uploaded_file or selected_file is not None:
             third_response_json={"translation":[],"transliteration":[]}
             transliteration_list=[]
             translation_list=[]
-            if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_english_alphabets'])+len(second_response_json['non-english_words_using_the_english_alphabet']))>0:
-                inputList1=[','.join(x.replace(' ','')) for x in second_response_json['chinese_words']]+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
-                inputList2=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']+second_response_json['non-english_words_using_the_english_alphabet']
+            if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_latin_alphabet'])+len(second_response_json['non-english_words_using_the_latin_alphabet']))>0:
+                inputList1=[','.join(x.replace(' ','')) for x in second_response_json['chinese_words']]+second_response_json['non_chinese_foreign_words_not_in_latin_alphabet']
+                inputList2=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_latin_alphabet']+second_response_json['non-english_words_using_the_latin_alphabet']
                 prompt=[
                 {'type':'text',
                     'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values in both keys are lists."
@@ -220,9 +220,9 @@ if uploaded_file or selected_file is not None:
     with col2:
         st.text_input("**Description of device**", value=('; ').join(first_response_json["description_of_devices"]))
         st.text_input("**English/coined words in mark**", value=('; ').join(second_response_json["english_words_coined_words_numbers_romanized_words"]))
-        st.text_input("**Non-English words using the English alphabet**", value=('; ').join(second_response_json["non-english_words_using_the_english_alphabet"]))
+        st.text_input("**Non-English words using the English alphabet**", value=('; ').join(second_response_json["non-english_words_using_the_latin_alphabet"]))
         st.text_input("**Chinese characters**", value=('; ').join(second_response_json["chinese_words"]))
-        st.text_input("**Other foreign characters**", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
+        st.text_input("**Other foreign characters**", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_latin_alphabet"]))
         st.text_input("**Translation**", value=('; ').join(translation_list))
         st.text_input("**Transliteration**", value=re.sub(", *"," ",'; '.join(transliteration_list).lower()))
 
