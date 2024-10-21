@@ -235,7 +235,7 @@ if uploaded_file or selected_file is not None:
         colA, colB, colC = st.columns((1,1,1))
         with colA:
             st.markdown('**First response:**')
-            st.markdown(f'''_ _{first_response}_ _''')
+            st.text(first_response)
         with colB:
             st.markdown('**Second response:**')
             st.text(second_response)
