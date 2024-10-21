@@ -193,7 +193,7 @@ if uploaded_file or selected_file is not None:
             translation_list=[]
             if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_english_alphabets'])+len(second_response_json['non-english_words_using_the_english_alphabet']))>0:
                 inputList1=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
-                inputlist2=second_response_json['non-english_words_using_the_english_alphabet']
+                inputList2=second_response_json['non-english_words_using_the_english_alphabet']
                 prompt=[
                 {'type':'text',
                     'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values are lists."
