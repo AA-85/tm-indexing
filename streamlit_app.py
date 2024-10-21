@@ -93,14 +93,14 @@ To view the raw data from OpenAI, refer to '⚙️ 🧰 **Debugging**' after the
 col_top1, col_top2 = st.columns((1,2))
 
 with col_top1:
-    st.header('👉 Upload an image')
+    st.header('👉 A) Upload an image')
     uploaded_file = st.file_uploader("Upload your mark to generate suggested indices.", type=['png', 'jpg','gif'], accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
 
 selected_file=None
 col_right=[]
 rowN=0
 with col_top2:
-    st.header('or 👉 Select a sample image below')
+    st.header('or 👉 B) Select a sample image below')
     with st.expander('**Samples**'):
         n=0
         rowElements = []
