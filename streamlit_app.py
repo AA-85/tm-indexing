@@ -49,21 +49,21 @@ def encode_image(image_obj):
 def scroll_to(element_id):
     components.html(f'''
         <script>     
-            async function sleep(ms){{
-                await new Promise(r => setTimeout(r, ms));        
+            async function close_sleep_scroll(ms){{
+                try{{
+                    window.parent.document.getElementsByTagName("summary")[1].click();}}
+                catch{{
+                    document.getElementsByTagName("summary")[1].click();}}
+                console.log(Date.now());
+                await new Promise(r => setTimeout(r, ms));
+                console.log(Date.now());
+                try{{
+                    var element = window.parent.document.getElementById("{element_id}");}}
+                catch{{
+                    var element = document.getElementById("{element_id}");}}
+                element.scrollIntoView({{behavior: 'smooth'}});                
             }}
-            try{{
-                window.parent.document.getElementsByTagName("summary")[1].click();}}
-            catch{{
-                document.getElementsByTagName("summary")[1].click();}}
-            console.log(Date.now());
-            sleep(500);
-            console.log(Date.now());        
-            try{{
-                var element = window.parent.document.getElementById("{element_id}");}}
-            catch{{
-                var element = document.getElementById("{element_id}");}}
-            element.scrollIntoView({{behavior: 'smooth'}});
+            close_sleep_scroll(500);
         </script>
     '''.encode(), height=0)
 
