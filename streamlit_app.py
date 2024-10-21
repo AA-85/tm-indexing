@@ -191,15 +191,18 @@ if uploaded_file or selected_file is not None:
             third_response_json={"translation":[],"transliteration":[]}
             transliteration_list=[]
             translation_list=[]
-            if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_english_alphabets']))>0:
-                inputList=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
+            if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_english_alphabets'])+len(second_response_json['non-english_words_using_the_english_alphabet']))>0:
+                inputList1=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
+                inputlist2=second_response_json['non-english_words_using_the_english_alphabet']
                 prompt=[
                 {'type':'text',
                     'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values are lists."
-                    "For each item in the provided list, provide a transliteration of the item in latin script in the key 'transliteration'."
-                    "For each item in the provided list, if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
-                    "List:"    
-                    f"{inputList}"      
+                    "For each item in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'."
+                    "For each item in the provided 'List1' and 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
+                    "List1:"    
+                    f"{inputList1}"
+                    "List2:"    
+                    f"{inputList2}"      
                     }
                 ]
                 third_response=get_completion(prompt,model="gpt-4o-mini",json_output=True)
