@@ -50,13 +50,14 @@ def scroll_to(element_id):
     components.html(f'''
         <script>     
             window.parent.document.getElementsByTagName("summary")[1].click();
+            await new Promise(r => setTimeout(r, 500));
             var element = window.parent.document.getElementById("{element_id}");
             element.scrollIntoView({{behavior: 'smooth'}});
         </script>
     '''.encode(), height=0)
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.33</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.34</i></div>', unsafe_allow_html=True)
 st.markdown(
     f""" 
         <style>
@@ -245,7 +246,7 @@ if uploaded_file or selected_file is not None:
             st.markdown('**Third response:**')
             st.text(third_response)
     
-with st.expander('😀 **Feedback**'):
+with st.expander('😀 **Feedback**',expanded=True):
     with st.form(key="feedback_form"):
         st.write("**Was this tool helpful?**")
         rating = st.feedback("thumbs")
