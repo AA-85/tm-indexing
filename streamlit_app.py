@@ -54,9 +54,7 @@ def scroll_to(element_id):
                     window.parent.document.getElementsByTagName("summary")[1].click();}}
                 catch{{
                     document.getElementsByTagName("summary")[1].click();}}
-                console.log(Date.now());
                 await new Promise(r => setTimeout(r, ms));
-                console.log(Date.now());
                 try{{
                     var element = window.parent.document.getElementById("{element_id}");}}
                 catch{{
