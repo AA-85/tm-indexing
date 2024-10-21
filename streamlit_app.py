@@ -199,9 +199,9 @@ if uploaded_file or selected_file is not None:
                 inputList2=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']+second_response_json['non-english_words_using_the_english_alphabet']
                 prompt=[
                 {'type':'text',
-                    'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values are lists."
-                    "For each item in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'. For strings in Chinese, provide the transliteration for each character separated by a space."
-                    "For each item in the provided 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
+                    'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values in both keys are lists."
+                    "FOR EACH ITEM in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'. For strings in Chinese, provide the transliteration for each character separated by a space."
+                    "FOR EACH ITEM in the provided 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
                     "List1:"    
                     f"{inputList1}"
                     "List2:"    
