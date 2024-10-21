@@ -25,7 +25,7 @@ def get_completion(prompt, model="gpt-4o", temperature=0, top_p=1.0, max_tokens=
     else:
       output_json_structure = None
 
-    messages = [{"role": "system", "content": "You are an automated image tagging robot."},{"role": "user", "content": prompt}]
+    messages = [{"role": "system", "content": "You are an automated image tagging robot. You MUST only rely solely on text found in the provided image when returning the 'text_in_image', do not rely on external information when generating this field."},{"role": "user", "content": prompt}]
     response = client.chat.completions.create( #originally was openai.chat.completions
         model=model,
         messages=messages,
