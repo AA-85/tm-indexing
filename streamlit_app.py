@@ -222,13 +222,13 @@ if uploaded_file or selected_file is not None:
                 translation_list=list(dict.fromkeys(third_response_json['translation']))
 
     with col2:
-        st.text_input("Description of device", value=('; ').join(first_response_json["description_of_devices"]))
-        st.text_input("English/coined words in mark", value=('; ').join(second_response_json["english_words_coined_words_numbers"]))
-        st.text_input("Non-English words using the English alphabet", value=('; ').join(second_response_json["non-english_words_using_the_english_alphabet"]))
-        st.text_input("Chinese characters", value=('; ').join(second_response_json["chinese_words"]))
-        st.text_input("Other foreign characters", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
-        st.text_input("Translation", value=('; ').join(translation_list))
-        st.text_input("Transliteration", value=('; ').join(transliteration_list))
+        st.text_input("**Description of device**", value=('; ').join(first_response_json["description_of_devices"]))
+        st.text_input("**English/coined words in mark**", value=('; ').join(second_response_json["english_words_coined_words_numbers"]))
+        st.text_input("**Non-English words using the English alphabet**", value=('; ').join(second_response_json["non-english_words_using_the_english_alphabet"]))
+        st.text_input("**Chinese characters**", value=('; ').join(second_response_json["chinese_words"]))
+        st.text_input("**Other foreign characters**", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
+        st.text_input("**Translation**", value=('; ').join(translation_list))
+        st.text_input("**Transliteration**", value=('; ').join(transliteration_list))
 
     with st.expander('⚙️ 🧰 **Debugging**'):
         
