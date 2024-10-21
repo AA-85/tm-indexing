@@ -187,7 +187,7 @@ if uploaded_file or selected_file is not None:
                     }
                 ]
 
-                second_response=get_completion(prompt,model="gpt-4o",json_output=True)
+                second_response=get_completion(prompt,model="gpt-4o-mini",json_output=True)
                 second_response_json=json.loads(second_response)
 
             third_response=''
@@ -200,8 +200,8 @@ if uploaded_file or selected_file is not None:
                 prompt=[
                 {'type':'text',
                     'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values in both keys are lists."
-                    "For each item in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'."
-                    "FOR EACH ITEM in the provided 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
+                    "For each string in the provided 'List1', provide a transliteration of the string in latin script in the key 'transliteration'. If the string contains commas, it should still be output as a single string in the key 'transliteration'."
+                    "FOR EACH ITEM in the provided 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item. DO NOT translate into non-English words."
                     "List1:"    
                     f"{inputList1}"
                     "List2:"    
