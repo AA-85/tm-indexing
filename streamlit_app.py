@@ -55,7 +55,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.22</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.23</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -216,8 +216,6 @@ if uploaded_file or selected_file is not None:
         st.text_input("Other foreign characters", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
         st.text_input("Translation", value=('; ').join(translation_list))
         st.text_input("Transliteration", value=('; ').join(transliteration_list))
-        if st.button("🔃 Reload results"):
-            st.rerun()
 
     with st.expander('⚙️ 🧰 **Debugging**'):
         
