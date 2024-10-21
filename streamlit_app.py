@@ -56,7 +56,7 @@ def scroll_to(element_id):
     '''.encode(), height=0)
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.30</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.31</i></div>', unsafe_allow_html=True)
 st.markdown(
     f""" 
         <style>
@@ -218,8 +218,10 @@ if uploaded_file or selected_file is not None:
                 third_response_json=json.loads(third_response)
                 for item in third_response_json['transliteration']:
                     transliteration_list.append((unicodedata.normalize('NFD',item).encode('ASCII','ignore')).decode('ASCII'))
+                for item in third_response_json['translation']:
+                    translation_list.append((unicodedata.normalize('NFD',item).encode('ASCII','ignore')).decode('ASCII'))
                 transliteration_list=list(dict.fromkeys(transliteration_list))
-                translation_list=list(dict.fromkeys(third_response_json['translation']))
+                translation_list=list(dict.fromkeys(translation_list))
 
     with col2:
         st.text_input("**Description of device**", value=('; ').join(first_response_json["description_of_devices"]))
