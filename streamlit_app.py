@@ -154,20 +154,6 @@ if uploaded_file or selected_file is not None:
         with col1:
             st.header("🖼️ Image Preview",anchor="preview")
             st.image(img)
-    
-    # prompt=[
-    #    {'type':'text',
-    #     'text': "Your response should be a JSON object with 5 keys: 'description_of_devices', 'words_in_image', 'non-english_words', 'chinese_characters', 'other_non_alphanumeric_words'." 
-    #     "Text can be broadly grouped into English or coined words, foreign words using the alphabet such as Malay or Italian, Chinese words and non-Chinese foreign words not using the English alphabet such as Korean or Japanese."
-    #     "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image excluding the text and should not include words like 'logo' or 'text'. If the image contains purely text and does not contain pictorial elements, this may be left empty. If the object is abstract, if possible, try to describe it in terms of what it resembles."
-    #     "'words_in_mark' should be a list of all the textual words/phrases in alphanumeric characters found in the image. If there is no text found in the image, this field MUST BE left empty. Parts of text that appear together in the image should be output as a single string in the list. 'words_in_mark' should not include words written in foreign characters such as Chinese, Korean, Japanese, Hindi etc."
-    #     "If 'words_in_mark' contains any non-English words that use the English alphabet, they should be returned as a list in 'non-english_words'. Parts of text that appear together in the image should be output as a single string in the list. 'non-english_words' should not include words written in foreign characters such as Chinese, Korean, Japanese, Hindi etc."
-    #     "'chinese_characters' should be a list of all the Chinese characters found in the image or left empty if none exist."
-    #     "'other_non_alphanumeric_words' should be a list of all the non-Chinese foreign character (such as Japanese or Korean) words found in the image or left empty if none exist."},
-    #     {'type':'image_url',
-    #     'image_url':{'url':f"data:image/jpeg;base64,{b64Str}"}
-    #     }
-    # ]
 
     with col2:
         st.header("🔍 Results: Indices Generated",anchor="results")
@@ -211,15 +197,18 @@ if uploaded_file or selected_file is not None:
             transliteration_list=[]
             translation_list=[]
             if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_english_alphabets'])+len(second_response_json['non-english_words_using_the_english_alphabet']))>0:
-                inputList1=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
+                inputList1a=[','.join(x.replace(' ','')) for x in second_response_json['chinese_words']]+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
+                inputList1b=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
                 inputList2=second_response_json['non-english_words_using_the_english_alphabet']
                 prompt=[
                 {'type':'text',
                     'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values are lists."
-                    "For each item in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'. For strings in Chinese, provide the transliteration for each character separated by a space."
-                    "For each item in the provided 'List1' and 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
-                    "List1:"    
-                    f"{inputList1}"
+                    "For each item in the provided 'List1a', provide a transliteration of the item in latin script in the key 'transliteration'. For strings in Chinese, provide the transliteration for each character separated by a space."
+                    "For each item in the provided 'List1b' and 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
+                    "List1a:"    
+                    f"{inputList1a}"
+                    "List1b:"    
+                    f"{inputList1b}"
                     "List2:"    
                     f"{inputList2}"      
                     }
