@@ -11,6 +11,7 @@ from io import BytesIO
 import json
 import unicodedata
 import math
+import requests
 
 from utility import check_password
 
@@ -55,7 +56,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.23</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.24</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -230,18 +231,26 @@ if uploaded_file or selected_file is not None:
             st.markdown('**Third response:**')
             st.text(third_response)
     
-    with st.expander('☺️ Feedback'):
-        with st.form("my_form"):
+    with st.expander('😀 **Feedback**'):
+        with st.form("feedback_form"):
             st.write("**Was this tool helpful?**")
-            feedback_selected = st.feedback("thumbs")
-            st.text_input("Why did you choose this rating? (optional)")
-            submit_form = st.form_submit_button("Submit")
+            rating = st.feedback("thumbs")
+            comments = st.text_input("Why did you choose this rating? (optional)")
+            submit_form = st.form_submit_button(label="feedback", help="Click to submit your feedback")
 
             # Checking if all the fields are non-empty
             if submit_form:
-                st.write()
+                st.write(submit_form)
 
                 if feedback_selected:
-                    st.success("Thank you for your feedback!")
+                    URL = 'https://formsubmit.co/andrew.au.tm@gmail.com'
+                    payload = {
+                        'rating': rating,
+                        'comments': comments
+                    }
+
+                    session = requests.session()
+                    r = requests.post(URL, data=payload)
+                    st.success("Form submitted, thank you for your feedback!")
                 else:
                     st.warning("Please indicate 👍 or 👎 before submitting the form.")
