@@ -232,7 +232,7 @@ if uploaded_file or selected_file is not None:
             st.text(third_response)
     
     with st.expander('😀 **Feedback**'):
-        with st.form("feedback_form"):
+        with st.form(key="feedback_form"):
             st.write("**Was this tool helpful?**")
             rating = st.feedback("thumbs")
             comments = st.text_input("**Why did you choose this rating? (optional)**")
