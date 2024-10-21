@@ -234,29 +234,29 @@ if uploaded_file or selected_file is not None:
             st.markdown('**Third response:**')
             st.text(third_response)
     
-    with st.expander('😀 **Feedback**'):
-        with st.form(key="feedback_form"):
-            st.write("**Was this tool helpful?**")
-            rating = st.feedback("thumbs")
-            comments = st.text_input("**Why did you choose this rating? (optional)**")
-            submit_form = st.form_submit_button(label="Submit", help="Click to submit your feedback")
+with st.expander('😀 **Feedback**'):
+    with st.form(key="feedback_form"):
+        st.write("**Was this tool helpful?**")
+        rating = st.feedback("thumbs")
+        comments = st.text_input("**Why did you choose this rating? (optional)**")
+        submit_form = st.form_submit_button(label="Submit", help="Click to submit your feedback")
 
-            # Checking if all the fields are non-empty
-            if submit_form:
-                if rating==1 or rating==0:    
-                    #URL = 'https://api.web3forms.com/submit'
-                    #headers= {
-                    #    "Content-Type": "application/json",
-                    #    "Accept": "application/json",
-                    #}
-                    #payload = {
-                    #    "access_key": st.secrets["WEB3FORMS_API_KEY"],
-                    #    "message": str(rating)+";"+str(comments),
-                    #}
-                    #data = json.dumps(payload, separators=(',', ':'))
-                    #session = requests.session()
-                    #r = requests.post(URL, headers=headers, data=data)
-                    #print(r.text)
-                    st.success("Form submitted, thank you for your feedback!")
-                else:
-                    st.warning("Please indicate 👍 or 👎 before submitting the form.")
+        # Checking if all the fields are non-empty
+        if submit_form:
+            if rating==1 or rating==0:    
+                #URL = 'https://api.web3forms.com/submit'
+                #headers= {
+                #    "Content-Type": "application/json",
+                #    "Accept": "application/json",
+                #}
+                #payload = {
+                #    "access_key": st.secrets["WEB3FORMS_API_KEY"],
+                #    "message": str(rating)+";"+str(comments),
+                #}
+                #data = json.dumps(payload, separators=(',', ':'))
+                #session = requests.session()
+                #r = requests.post(URL, headers=headers, data=data)
+                #print(r.text)
+                st.success("Form submitted, thank you for your feedback!")
+            else:
+                st.warning("Please indicate 👍 or 👎 before submitting the form.")
