@@ -53,10 +53,19 @@ def scroll_to(element_id):
             var element = window.parent.document.getElementById("{element_id}");
             element.scrollIntoView({{behavior: 'smooth'}});
         </script>
-    '''.encode())
+    '''.encode(), height=0)
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.29</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.30</i></div>', unsafe_allow_html=True)
+st.markdown(
+    f""" 
+        <style>
+        .element-container:has(iframe[height="0"]) {{
+          display: none;
+        }}
+        </style>
+    """, unsafe_allow_html=True
+)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
