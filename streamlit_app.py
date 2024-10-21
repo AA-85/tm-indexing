@@ -49,9 +49,15 @@ def encode_image(image_obj):
 def scroll_to(element_id):
     components.html(f'''
         <script>     
-            window.parent.document.getElementsByTagName("summary")[1].click();
+            try:
+                window.parent.document.getElementsByTagName("summary")[1].click();
+            catch:
+                document.getElementsByTagName("summary")[1].click();
             await new Promise(r => setTimeout(r, 500));
-            var element = window.parent.document.getElementById("{element_id}");
+            try:
+                var element = window.parent.document.getElementById("{element_id}");
+            catch:
+                var element = document.getElementById("{element_id}");
             element.scrollIntoView({{behavior: 'smooth'}});
         </script>
     '''.encode(), height=0)
