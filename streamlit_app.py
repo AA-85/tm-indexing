@@ -72,13 +72,13 @@ with st.expander("📌 **Getting Started**"):
     st.markdown('''👋 Greetings!
 ----------
 **Background:**  
-Every day IPOS receives hundreds of trade mark applications which contain images that need to be "indexed" or tagged with the relevant information about the textual and graphical elements they contain. This enables both customers and staff to quickly find information on Trade Marks filed via a simple keyword search (this is on top of image-based search that we also provide). Today, this is done manually by a team of indexing officers but this POC is an attempt to leverage AI to assist them with suggested indices.
+Every day IPOS receives hundreds of trade mark applications which contain images that need to be "indexed" or tagged with the relevant information about the textual and graphical elements they contain. This enables both customers and staff to quickly find information on trade marks filed using a simple keyword search (this is on top of the image-based search we also provide). Today, this is done manually by a team of indexing officers and this POC is an attempt to leverage AI to assist them with suggested indices.
 
 **Instructions:**  
 To use, simply upload an image to be indexed or select one from the list of samples we have prepared.  
-Have fun, indexing!
+Have fun indexing!
                                 
-To view the raw data from OpenAI, refer to '⚙️ 🧰 Debugging' after the indices have been generated.''')
+To view the raw data from OpenAI, refer to '⚙️ 🧰 **Debugging**' after the indices have been generated, or leave us some feedback at '😀 **Feedback**' to help us do better.''')
 
 col_top1, col_top2 = st.columns((1,2))
 
