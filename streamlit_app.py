@@ -200,7 +200,7 @@ if uploaded_file or selected_file is not None:
                 prompt=[
                 {'type':'text',
                     'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values in both keys are lists."
-                    "FOR EACH ITEM in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'. For strings in Chinese, provide the transliteration for each character separated by a space."
+                    "For each item in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'."
                     "FOR EACH ITEM in the provided 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
                     "List1:"    
                     f"{inputList1}"
