@@ -208,7 +208,7 @@ if uploaded_file or selected_file is not None:
                     f"{inputList2}"      
                     }
                 ]
-                third_response=get_completion(prompt,model="gpt-4o-mini",json_output=True)
+                third_response=get_completion(prompt,model="gpt-4o",json_output=True)
                 third_response_json=json.loads(third_response)
                 for item in third_response_json['transliteration']:
                     transliteration_list.append((unicodedata.normalize('NFD',item).encode('ASCII','ignore')).decode('ASCII'))
