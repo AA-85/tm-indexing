@@ -56,7 +56,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.28</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.29</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
