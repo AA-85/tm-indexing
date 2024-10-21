@@ -1,7 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import pandas as pd
-import numpy as np
 from openai import OpenAI
 from images import b64_images
 import base64
@@ -12,7 +10,7 @@ import json
 import unicodedata
 import math
 import requests
-
+import re
 from utility import check_password
 
 # Do not continue if check_password is not True.  
@@ -66,7 +64,7 @@ def scroll_to(element_id):
     '''.encode(), height=0)
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.35</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.36</i></div>', unsafe_allow_html=True)
 st.markdown(
     f""" 
         <style>
@@ -226,7 +224,7 @@ if uploaded_file or selected_file is not None:
         st.text_input("**Chinese characters**", value=('; ').join(second_response_json["chinese_words"]))
         st.text_input("**Other foreign characters**", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
         st.text_input("**Translation**", value=('; ').join(translation_list))
-        st.text_input("**Transliteration**", value=('; ').join(transliteration_list)).lower()
+        st.text_input("**Transliteration**", value=re.sub(", *"," ",'; '.join(transliteration_list).lower()))
 
     with st.expander('⚙️ 🧰 **Debugging**'):
         
