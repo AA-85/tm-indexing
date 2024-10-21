@@ -103,7 +103,7 @@ with col_top2:
                     if n < len(b64_images):    
                         with col_right[rowN][n%6]:
                             #print(rowN,n%6)
-                            if st.button(f'Sample {n+1}',type="primary"):
+                            if st.button(f'↓Sample {n+1}↓',type="primary"):
                                 selected_file=BytesIO(base64.b64decode(b64_images[n]))
                                 uploaded_file=None
                                 scroll_to("preview")
