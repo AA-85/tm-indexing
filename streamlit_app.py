@@ -181,7 +181,7 @@ if uploaded_file or selected_file is not None:
                     "For each item in the provided list, classify it into one of the 4 keys. DO NOT split one item into multiple items."
                     "'non_chinese_foreign_words_not_in_english_alphabets' MUST NOT contain any Chinese characters as they should be classified in 'chinese_words' instead."
                     "'english_words_coined_words_numbers' includes 1)English words, 2)words that do not belong to any language and have no known meaning, and 3) romanised foreign words (such as romanised japanese words)."
-                    "'non-english_words_using_the_english_alphabet' should only include words not in English but with a known meaning, but SHOULD NOT INCLUDE romanised foreign words (such as romanised japanese words)."
+                    "'non-english_words_using_the_english_alphabet' should only include words not in English but with a known meaning, but SHOULD NOT INCLUDE romanised foreign words (such as romanised japanese words like 'kawaii' and romanised korean words like 'daebak')."
                     "List:"    
                     f"{text_in_image}"      
                     }
