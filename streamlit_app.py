@@ -56,7 +56,7 @@ def scroll_to(element_id):
     '''.encode(), height=0)
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.32</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.33</i></div>', unsafe_allow_html=True)
 st.markdown(
     f""" 
         <style>
@@ -149,7 +149,7 @@ if uploaded_file or selected_file is not None:
     #    {'type':'text',
     #     'text': "Your response should be a JSON object with 5 keys: 'description_of_devices', 'words_in_image', 'non-english_words', 'chinese_characters', 'other_non_alphanumeric_words'." 
     #     "Text can be broadly grouped into English or coined words, foreign words using the alphabet such as Malay or Italian, Chinese words and non-Chinese foreign words not using the English alphabet such as Korean or Japanese."
-    #     "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image excluding the text and should not include words like 'logo' or 'text'. If the image contains purely text and does not contain pictorial elements, this may be left empty."
+    #     "'description_of_devices' should be a list of words or short phrases that describe each pictorial element in the image excluding the text and should not include words like 'logo' or 'text'. If the image contains purely text and does not contain pictorial elements, this may be left empty. If the object is abstract, if possible, try to describe it in terms of what it resembles."
     #     "'words_in_mark' should be a list of all the textual words/phrases in alphanumeric characters found in the image. If there is no text found in the image, this field MUST BE left empty. Parts of text that appear together in the image should be output as a single string in the list. 'words_in_mark' should not include words written in foreign characters such as Chinese, Korean, Japanese, Hindi etc."
     #     "If 'words_in_mark' contains any non-English words that use the English alphabet, they should be returned as a list in 'non-english_words'. Parts of text that appear together in the image should be output as a single string in the list. 'non-english_words' should not include words written in foreign characters such as Chinese, Korean, Japanese, Hindi etc."
     #     "'chinese_characters' should be a list of all the Chinese characters found in the image or left empty if none exist."
