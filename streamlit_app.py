@@ -173,14 +173,14 @@ if uploaded_file or selected_file is not None:
             text_in_image=list(dict.fromkeys(first_response_json['text_in_image']))
             description_of_devices=list(dict.fromkeys(first_response_json['description_of_devices']))
             second_response=''
-            second_response_json={"english_words_coined_words_numbers":[],"chinese_words":[],"non-english_words_using_the_english_alphabet":[],"non_chinese_foreign_words_not_in_english_alphabets":[]}
+            second_response_json={"english_words_coined_words_numbers_romanized_words":[],"chinese_words":[],"non-english_words_using_the_english_alphabet":[],"non_chinese_foreign_words_not_in_english_alphabets":[]}
             if len(text_in_image)>0:
                 prompt=[
                 {'type':'text',
-                    'text': "Your response should be a JSON object with 4 keys: 'english_words_coined_words_numbers', 'chinese_words', 'non-english_words_using_the_english_alphabet', 'non_chinese_foreign_words_not_in_english_alphabets'."
+                    'text': "Your response should be a JSON object with 4 keys: 'english_words_coined_words_numbers_romanized_words', 'chinese_words', 'non-english_words_using_the_english_alphabet', 'non_chinese_foreign_words_not_in_english_alphabets'."
                     "For each item in the provided list, classify it into one of the 4 keys. DO NOT split one item into multiple items."
+                    "'english_words_coined_words_numbers_romanized_words' includes 1)English words, 2)words that do not belong to any language and have no known meaning, and 3) romanized foreign words (such as romanized japanese words like 'kawaii' and romanized korean words like 'daebak')."
                     "'non_chinese_foreign_words_not_in_english_alphabets' MUST NOT contain any Chinese characters as they should be classified in 'chinese_words' instead."
-                    "'english_words_coined_words_numbers' includes 1)English words, 2)words that do not belong to any language and have no known meaning, and 3) romanized foreign words (such as romanized japanese words and romanized korean words)."
                     "'non-english_words_using_the_english_alphabet' should only include words not in English but with a known meaning, but MUST NOT include romanised foreign words (e.g. it MUST NOT contain romanized japanese words like 'kawaii' and romanized korean words like 'daebak', EXCEPT names of places e.g. 'Hokkaido')."
                     "List:"    
                     f"{text_in_image}"      
@@ -219,7 +219,7 @@ if uploaded_file or selected_file is not None:
 
     with col2:
         st.text_input("**Description of device**", value=('; ').join(first_response_json["description_of_devices"]))
-        st.text_input("**English/coined words in mark**", value=('; ').join(second_response_json["english_words_coined_words_numbers"]))
+        st.text_input("**English/coined words in mark**", value=('; ').join(second_response_json["english_words_coined_words_numbers_romanized_words"]))
         st.text_input("**Non-English words using the English alphabet**", value=('; ').join(second_response_json["non-english_words_using_the_english_alphabet"]))
         st.text_input("**Chinese characters**", value=('; ').join(second_response_json["chinese_words"]))
         st.text_input("**Other foreign characters**", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
