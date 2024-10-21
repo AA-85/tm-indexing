@@ -56,7 +56,7 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.25</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.26</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
@@ -243,14 +243,18 @@ if uploaded_file or selected_file is not None:
                 st.write(submit_form)
 
                 if submit_form:
-                    URL = 'https://formsubmit.co/andrew.au.tm@gmail.com'
-                    payload = {
-                        'rating': rating,
-                        'comments': comments
+                    URL = 'https://api.web3forms.com/submit'
+                    headers= {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
                     }
-
+                    payload = {
+                        "access_key": st.secrets["WEB3FORMS_API_KEY"],
+                        "message": rating+";"+comments,
+                    }
+                    data = json.dumps(payload, separators=(',', ':'))
                     session = requests.session()
-                    r = requests.post(URL, data=payload)
+                    r = requests.post(URL, data=data)
                     st.success("Form submitted, thank you for your feedback!")
                 else:
                     st.warning("Please indicate 👍 or 👎 before submitting the form.")
