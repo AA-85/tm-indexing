@@ -180,8 +180,8 @@ if uploaded_file or selected_file is not None:
                     'text': "Your response should be a JSON object with 4 keys: 'english_words_coined_words_numbers', 'chinese_words', 'non-english_words_using_the_english_alphabet', 'non_chinese_foreign_words_not_in_english_alphabets'."
                     "For each item in the provided list, classify it into one of the 4 keys. DO NOT split one item into multiple items."
                     "'non_chinese_foreign_words_not_in_english_alphabets' MUST NOT contain any Chinese characters as they should be classified in 'chinese_words' instead."
-                    "'english_words_coined_words_numbers' includes 1)English words, 2)words that do not belong to any language and have no known meaning, and 3) romanised foreign words (such as romanised japanese words)."
-                    "'non-english_words_using_the_english_alphabet' should only include words not in English but with a known meaning, but SHOULD NOT INCLUDE romanised foreign words (such as romanised japanese words like 'kawaii' and romanised korean words like 'daebak')."
+                    "'english_words_coined_words_numbers' includes 1)English words, 2)words that do not belong to any language and have no known meaning, and 3) romanized foreign words (such as romanized japanese words and romanized korean words)."
+                    "'non-english_words_using_the_english_alphabet' should only include words not in English but with a known meaning, but MUST NOT include romanised foreign words (e.g. it MUST NOT contain romanized japanese words like 'Azabu' and romanized korean words like 'daebak')."
                     "List:"    
                     f"{text_in_image}"      
                     }
