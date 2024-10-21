@@ -63,7 +63,7 @@ def scroll_to(element_id):
                     var element = document.getElementById("{element_id}");}}
                 element.scrollIntoView({{behavior: 'smooth'}});                
             }}
-            close_sleep_scroll(500);
+            close_sleep_scroll(1000);
         </script>
     '''.encode(), height=0)
 
