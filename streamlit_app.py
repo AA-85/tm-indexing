@@ -55,18 +55,19 @@ def scroll_to(element_id):
     '''.encode())
 
 st.set_page_config(layout="wide")
-st.markdown('<div style="text-align: right;"><i>v1.21</i></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: right;"><i>v1.22</i></div>', unsafe_allow_html=True)
 st.title('🤖 Trade Mark Automatic Indexer') 
 
 with st.expander("📌 **Getting Started**"):
-    st.markdown('''Greetings!
+    st.markdown('''👋 Greetings!
 ----------
 **Background:**  
-Every day IPOS receveives hundreds of trade mark applications which contain images that need to be "indexed" or tagged with the relevant information about the textextual and graphical elements they contain to enable our text-based search to function (this is in addition to an image-based search that we also provide). Today, this is done manually by a team of indexing officers but we plan to leverage AI to assist them by providing a first cut and this is a POC for that.
+Every day IPOS receveives hundreds of trade mark applications which contain images that need to be "indexed" or tagged with the relevant information about the textual and graphical elements they contain. This enables both customers and staff to quickly find information on Trade Marks filed via a simple keyword search (this is on top of image-based search that we also provide). Today, this is done manually by a team of indexing officers but this POC is an attempt to leverage AI to assist them with suggested indices.
 
 **Instructions:**  
-To use, simply upload an image to be indexed or select one from the list of samples.
-                
+To use, simply upload an image to be indexed or select one from the list of samples we have prepared.  
+Have fun, indexing!
+                                
 To view the raw data from OpenAI, refer to '⚙️ 🧰 Debugging' after the indices have been generated.''')
 
 col_top1, col_top2 = st.columns((1,2))
@@ -215,7 +216,9 @@ if uploaded_file or selected_file is not None:
         st.text_input("Other foreign characters", value=('; ').join(second_response_json["non_chinese_foreign_words_not_in_english_alphabets"]))
         st.text_input("Translation", value=('; ').join(translation_list))
         st.text_input("Transliteration", value=('; ').join(transliteration_list))
-    
+        if st.button("🔃 Reload results"):
+            st.rerun()
+
     with st.expander('⚙️ 🧰 **Debugging**'):
         
         colA, colB, colC = st.columns((1,1,1))
@@ -228,3 +231,19 @@ if uploaded_file or selected_file is not None:
         with colC:
             st.markdown('**Third response:**')
             st.text(third_response)
+    
+    with st.expander('☺️ Feedback'):
+        with st.form("my_form"):
+            st.write("**Was this tool helpful?**")
+            feedback_selected = st.feedback("thumbs")
+            st.text_input("Why did you choose this rating? (optional)")
+            submit_form = st.form_submit_button("Submit")
+
+            # Checking if all the fields are non-empty
+            if submit_form:
+                st.write()
+
+                if feedback_selected:
+                    st.success("Thank you for your feedback!")
+                else:
+                    st.warning("Please indicate 👍 or 👎 before submitting the form.")
