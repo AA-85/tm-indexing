@@ -253,7 +253,8 @@ if uploaded_file or selected_file is not None:
                     }
                     data = json.dumps(payload, separators=(',', ':'))
                     session = requests.session()
-                    r = requests.post(URL, headers=headers,data=data)
+                    r = requests.post(URL, headers=headers, data=data)
+                    print(r.text)
                     st.success("Form submitted, thank you for your feedback!")
                 else:
                     st.warning("Please indicate 👍 or 👎 before submitting the form.")
