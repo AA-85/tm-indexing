@@ -197,18 +197,15 @@ if uploaded_file or selected_file is not None:
             transliteration_list=[]
             translation_list=[]
             if (len(second_response_json['chinese_words'])+len(second_response_json['non_chinese_foreign_words_not_in_english_alphabets'])+len(second_response_json['non-english_words_using_the_english_alphabet']))>0:
-                inputList1a=[','.join(x.replace(' ','')) for x in second_response_json['chinese_words']]+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
-                inputList1b=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
-                inputList2=second_response_json['non-english_words_using_the_english_alphabet']
+                inputList1=[','.join(x.replace(' ','')) for x in second_response_json['chinese_words']]+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']
+                inputList2=second_response_json['chinese_words']+second_response_json['non_chinese_foreign_words_not_in_english_alphabets']+second_response_json['non-english_words_using_the_english_alphabet']
                 prompt=[
                 {'type':'text',
                     'text': "Your response should be a JSON object with 2 keys: 'transliteration' and 'translation', where the values are lists."
-                    "For each item in the provided 'List1a', provide a transliteration of the item in latin script in the key 'transliteration'. For strings in Chinese, provide the transliteration for each character separated by a space."
-                    "For each item in the provided 'List1b' and 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
-                    "List1a:"    
-                    f"{inputList1a}"
-                    "List1b:"    
-                    f"{inputList1b}"
+                    "For each item in the provided 'List1', provide a transliteration of the item in latin script in the key 'transliteration'. For strings in Chinese, provide the transliteration for each character separated by a space."
+                    "For each item in the provided 'List2', if the item has a meaning provide the meaning in English in the key 'translation', if it has no meaning then skip the item'."
+                    "List1:"    
+                    f"{inputList1}"
                     "List2:"    
                     f"{inputList2}"      
                     }
